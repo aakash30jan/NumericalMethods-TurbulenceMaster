@@ -1,0 +1,5 @@
+plot (x**2+1)/(x**2-1)
+set xrange [-10:10]
+set yrange [-10:10]
+replot
+
