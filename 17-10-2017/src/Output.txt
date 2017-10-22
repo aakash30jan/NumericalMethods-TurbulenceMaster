@@ -1,0 +1,27 @@
+
+##for y=sin(x) ## K=1 M=1
+
+aero@aero-dell-3542:~/workdir/ClassWork-TurbulenceMaster/17-10-2017/src$ gfortran int_simpson13.f90 -o int_simpson13.exe 
+aero@aero-dell-3542:~/workdir/ClassWork-TurbulenceMaster/17-10-2017/src$ ./int_simpson13.exe 
+ The Approximate Value of Integration is:    2.0000055025655858     
+ The Absolute Error of Integration is:    1.0598778721249155E-005
+
+
+aero@aero-dell-3542:~/workdir/ClassWork-TurbulenceMaster/17-10-2017/src$ gfortran int_trapezoid.f90 -o int_trapezoid.exe 
+aero@aero-dell-3542:~/workdir/ClassWork-TurbulenceMaster/17-10-2017/src$ ./int_trapezoid.exe 
+ The Approximate Value of Integration is:    1.9958888788646556     
+ The Absolute Error of Integration is:    6.4498223131124396E-003
+
+
+aero@aero-dell-3542:~/workdir/ClassWork-TurbulenceMaster/17-10-2017/src$ gfortran int_midpoint.f90 -o int_midpoint.exe 
+aero@aero-dell-3542:~/workdir/ClassWork-TurbulenceMaster/17-10-2017/src$ ./int_midpoint.exe 
+ The Approximate Value of Integration is:    2.0758810998773640     
+ The Absolute Error of Integration is:    3.2249111565562198E-003
+
+
+aero@aero-dell-3542:~/workdir/ClassWork-TurbulenceMaster/17-10-2017/src$ ls
+int_midpoint.exe  int_simpson13.exe  int_trapezoid.exe  main.exe
+int_midpoint.f90  int_simpson13.f90  int_trapezoid.f90  main.f90
+
+aero@aero-dell-3542:~/workdir/ClassWork-TurbulenceMaster/17-10-2017/src$ 
+
