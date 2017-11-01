@@ -2,7 +2,7 @@ program lang
   implicit none
   real(8), allocatable:: x(:),y(:),L(:)!,xg(:),yg(:)
   !real(8):: x(5),y(5),L(5)
-  real(8):: xg,yg ,xu,xl,delX 
+  real(8):: xg,yg ,xu,xl,delX , temp
   integer :: i,j,k, N, M
 
   N=4  !order of polynomial
@@ -43,9 +43,11 @@ program lang
   !print *,yg
   end do
   
-  !print *, "Value of y at x=",xg, "is",yg
+  print *, "Value of y at x=",xg, "is",yg
 
-
+  temp=20.0
+  temp=sin(temp)
+  print *, "sin(x)", temp
 
   deallocate(x,y,L)
 
