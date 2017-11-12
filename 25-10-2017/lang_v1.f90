@@ -7,14 +7,15 @@ integer :: i,j,n,k
 
 !x=(/0.013,1.998,4.085/)
 !y=(/3.946,0.0,4.351/)
-n=4
-allocate(x(n+1),y(n+1),L(n),xvg(n-1),yvg(n-1))
+np=3 !order of polynomial
+nv=4 !points available to interpolate
+allocate(x(np+1),y(np+1),L(np),xvg(nv),yvg(nv))
  
-  xl=0.013
-  xu=4.085
-  delX=(xu-xl)/n
+  xl=0.001
+  xu=4.000
+  delX=(xu-xl)/np
    
- do i=1,n+1
+ do i=1,np+1
     if (i==1) then
       x(i)=xl
     else 
@@ -32,17 +33,22 @@ allocate(x(n+1),y(n+1),L(n),xvg(n-1),yvg(n-1))
 !xvg=(/1.5, 3.5/)
 !yvg=(/0.0,0.0/)
 
-do i=2,n
- xvg(i-1)=x(i)
+delX=(xu-xl)/nv
+
+do i=1,nv
+      xvg(i)=xl+(delX*i)
+      !print *, xvg(i)
 end do
+
+
 !print *, xvg
 !xvg=x(2,n)
 yvg=0.0
 do k=1,size(xvg)
 xg=xvg(k)
-do i=1,n
+do i=1,np
     L(i)=1
-        do j=1,n
+        do j=1,np
         if (j.ne.i) then
             L(i)=L(i)*(xg-x(j))/(x(i)-x(j))
         end if
@@ -50,7 +56,8 @@ do i=1,n
 !print *,i,L(i)
 yg=yg+L(i)*y(i)
 end do
-print *, "Value of y at", xg, "is",yg    
+!print *, "Value of y at", xg, "is",yg 
+print *, xg,yg      
 end do
 
 !print *, "Value of y at", xg, "is",yg    
