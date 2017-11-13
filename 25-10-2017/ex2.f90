@@ -1,3 +1,5 @@
+module ex2
+contains
 subroutine lagrange_basis_function_1d ( mx, xd, i, xi, yi ) 
 
 !*****************************************************************************80
@@ -48,7 +50,7 @@ subroutine lagrange_basis_function_1d ( mx, xd, i, xi, yi )
         yi = yi * ( xi - xd(j) ) / ( xd(i) - xd(j) )
       end if
     end do
-  end if
+  end if  
 
   return
 end
@@ -119,3 +121,4 @@ subroutine lagrange_interp_2d ( mx, my, xd_1d, yd_1d, zd, ni, xi, yi, zi )
   return
 end
 
+end module
