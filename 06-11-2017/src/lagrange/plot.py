@@ -17,9 +17,9 @@ pl.show()
 
 
 #plot curves
-import pylab as pl
-import numpy as np
-data=np.loadtxt("eqn1.dat")
-pl.plot(data[:,0],data[:,1],'r')
-pl.plot(data[:,0],data[:,3],'bo')
-pl.show()
+#import pylab as pl
+#import numpy as np
+#data=np.loadtxt("eqn1.dat")
+#pl.plot(data[:,0],data[:,1],'r')
+#pl.plot(data[:,0],data[:,3],'bo')
+#pl.show()
