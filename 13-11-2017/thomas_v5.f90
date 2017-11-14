@@ -1,14 +1,23 @@
 program tridiagonal_matrix
 	implicit none
-	integer :: i,j,k
-	integer,parameter ::n=90
-	real(8) ::a(n),b(n),c(n),d(n),x(n),xexact(n),error,A_Main(n,n),x_ran(n)
+	integer :: i,j,k,n,l
+	real(8) ::error,m(1000)
+  real(8), allocatable:: a(:),b(:),c(:),d(:),x(:),xexact(:),A_Main(:,:),x_ran(:)
 	! a is the lower diagonal of the tridiagonal matrix
 	! b is the main diagonal of the tridiagonal matrix
 	! c is the uppar diagonal of the tridiagonal matrix
 	! d is the right hand side of the equations of the tridiagonal matrix
   !x is the numerical value calculated from the thomas algorithm.
-	
+  
+  do i=1,size(m)	
+    !m(i)=10**i
+    m(i)=10*i
+  end do
+  
+  do l=1,size(m)
+  n=m(l)
+  allocate(a(n),b(n),c(n),d(n),x(n),xexact(n),A_Main(n,n),x_ran(n))
+
 	a=-1.0d0
 	a(1)=0.0d0	!first element of the a shold be zero
 	b=4.0d0			! all elements of b are identical
@@ -48,13 +57,21 @@ program tridiagonal_matrix
 	do i=1,n
 		error=error+dabs(x(i)-x_ran(i)) !error between the random x and the x calculated through Thomas Algorithm
 	end do
-	print*,"Error=", error
+	!print*,"Error=", error
+  print*,n,"    ",error
 	!print*,x
   !open(unit=25,file="xRan_xNum.dat")
 	!do i=1,n
 	!	write(25,*) x_ran(i),x(i)
 	!end do 
 	!close(25)
+
+
+	
+
+ deallocate(a,b,c,d,x,xexact,A_Main,x_ran)
+
+ end do !for l loop 
 
 contains
   !subroutine to caluculate the x values from AX=d system
@@ -73,5 +90,4 @@ contains
 			x(i)=(d(i)-(c(i)*x(i+1)))/b(i) !Numerical values calculated using thomas algoritham
 		end do
 	end subroutine triSolve
-	
 end program
