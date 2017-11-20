@@ -1,0 +1,177 @@
+In [[numerical linear algebra]], the '''tridiagonal matrix algorithm''', also known as the '''Thomas algorithm''' (named after [[Llewellyn Thomas]]), is a simplified form of [[Gaussian elimination]] that can be used to solve [[Tridiagonal matrix|tridiagonal systems of equations]].  A tridiagonal system for ''n'' unknowns may be written as
+
+:<math>
+a_i x_{i - 1}  + b_i x_i  + c_i x_{i + 1}  = d_i , \,\!</math>
+where <math> a_1  = 0\, </math> and <math> c_n = 0\, </math>.
+
+:<math>
+\begin{bmatrix}
+   {b_1} & {c_1} & {   } & {   } & { 0 } \\
+   {a_2} & {b_2} & {c_2} & {   } & {   } \\
+   {   } & {a_3} & {b_3} & \ddots & {   } \\
+   {   } & {   } & \ddots & \ddots & {c_{n-1}}\\
+   { 0 } & {   } & {   } & {a_n} & {b_n}\\
+\end{bmatrix}
+\begin{bmatrix}
+   {x_1 }  \\
+   {x_2 }  \\
+   {x_3 }  \\
+   \vdots   \\
+   {x_n }  \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+   {d_1 }  \\
+   {d_2 }  \\
+   {d_3 }  \\
+   \vdots   \\
+   {d_n }  \\
+\end{bmatrix}
+.
+</math>
+
+For such systems, the solution can be obtained in <math>O(n)</math> operations instead of <math>O(n^3)</math> required by [[Gaussian elimination]]. A first sweep eliminates the <math>a_i</math>'s, and then an (abbreviated) backward substitution produces the solution.  Examples of such matrices commonly arise from the discretization of 1D [[Poisson equation]] and natural cubic [[spline interpolation]]; similar systems of matrices arise in [[tight binding |tight binding physics]] or [[nearest neighbor]] effects models.
+
+Thomas' algorithm is not [[numerical stability|stable]] in general, but is so in several special cases, such as when the matrix is [[diagonally dominant]] (either by rows or columns) or [[symmetric positive definite]];<ref name="Niyogi2006">{{cite book|author=Pradip Niyogi|title=Introduction to Computational Fluid Dynamics|year=2006|publisher=Pearson Education India|isbn=978-81-7758-764-7|page=76}}</ref><ref name="Datta2010"/> for a more precise characterization of stability of Thomas' algorithm, see Higham Theorem 9.12.<ref name="Higham2002">{{cite book|author=Nicholas J. Higham|title=Accuracy and Stability of Numerical Algorithms: Second Edition|year=2002|publisher=SIAM|isbn=978-0-89871-802-7|page=175}}</ref> If stability is required in the general case, [[Gaussian elimination]] with [[partial pivoting]] (GEPP) is recommended instead.<ref name="Datta2010">{{cite book|author=Biswa Nath Datta|title=Numerical Linear Algebra and Applications, Second Edition|year=2010|publisher=SIAM|isbn=978-0-89871-765-5|page=162}}</ref>
+
+==Method==
+The forward sweep consists of modifying the coefficients as follows, denoting the new coefficients with primes:
+
+:<math>c'_i =
+\begin{cases}
+\begin{array}{lcl}
+  \cfrac{c_i}{b_i}                  & ; & i = 1 \\
+  \cfrac{c_i}{b_i - a_i c'_{i - 1}} & ; & i = 2, 3, \dots, n-1 \\
+\end{array}
+\end{cases}
+\,</math>
+
+and
+
+:<math>d'_i =
+\begin{cases}
+\begin{array}{lcl}
+  \cfrac{d_i}{b_i}                  & ; & i = 1 \\
+  \cfrac{d_i - a_i d'_{i - 1}}{b_i - a_i c'_{i - 1}} & ; & i = 2, 3, \dots, n. \\
+\end{array}
+\end{cases}
+\,</math>
+
+The solution is then obtained by back substitution:
+
+:<math>x_n = d'_n\,</math>
+
+:<math>x_i = d'_i - c'_i x_{i + 1} \qquad ; \ i = n - 1, n - 2, \ldots, 1.</math>
+
+==Derivation==
+The derivation of the tridiagonal matrix algorithm is a special case of [[Gaussian elimination]].
+
+Suppose that the unknowns are <math>x_1,\ldots, x_n</math>, and that the equations to be solved are:
+
+:<math>\begin{align}
+b_1 x_1 + c_1 x_2 & = d_1;& i & = 1 \\
+a_i x_{i - 1} + b_i x_i  + c_i x_{i + 1} & = d_i;& i & = 2, \ldots, n - 1 \\
+a_n x_{n - 1} + b_n x_n & = d_n;& i & = n.
+\end{align}
+</math>
+
+Consider modifying the second (<math>i = 2</math>) equation with the first equation as follows:
+
+:<math>
+(\mbox{equation 2}) \cdot b_1 - (\mbox{equation 1}) \cdot a_2
+</math>
+
+which would give:
+
+:<math>
+(a_2 x_1 + b_2 x_2  + c_2 x_3) b_1 - (b_1 x_1  + c_1 x_2) a_2 = d_2 b_1 - d_1 a_2
+\,</math>
+
+:<math>
+(b_2 b_1 - c_1 a_2) x_2  + c_2 b_1 x_3 = d_2 b_1 - d_1 a_2
+\,</math>
+
+where the second equation immediately above is a simplified version of the equation immediately preceding it.  The effect is that <math>x_1</math> has been eliminated from the second equation. Using a similar tactic with the '''modified''' second equation on the third equation yields:
+
+:<math>
+(a_3 x_2 + b_3 x_3 + c_3 x_4) (b_2 b_1 - c_1 a_2) -
+((b_2 b_1 - c_1 a_2) x_2 + c_2 b_1 x_3) a_3
+= d_3 (b_2 b_1 - c_1 a_2) - (d_2 b_1 - d_1 a_2) a_3
+\,</math>
+
+:<math>
+(b_3 (b_2 b_1 - c_1 a_2) - c_2 b_1 a_3 )x_3 + c_3 (b_2 b_1 - c_1 a_2) x_4
+= d_3 (b_2 b_1 - c_1 a_2) - (d_2 b_1 - d_1 a_2) a_3.
+\,</math>
+
+This time <math>x_2</math> was eliminated. If this procedure is repeated until the <math>n^{th}</math> row; the (modified) <math>n^{th}</math> equation will involve only one unknown, <math>x_n</math>. This may be solved for and then used to solve the <math>(n - 1)^{th}</math> equation, and so on until all of the unknowns are solved for.
+
+Clearly, the coefficients on the modified equations get more and more complicated if stated explicitly. By examining the procedure, the modified coefficients (notated with tildes) may instead be defined recursively:
+
+:<math>\tilde a_i = 0\,</math>
+
+:<math>\tilde b_1 = b_1\,</math>
+:<math>\tilde b_i = b_i \tilde b_{i - 1} - \tilde c_{i - 1} a_i\,</math>
+
+:<math>\tilde c_1 = c_1\,</math>
+:<math>\tilde c_i = c_i \tilde b_{i - 1}\,</math>
+
+:<math>\tilde d_1 = d_1\,</math>
+:<math>\tilde d_i = d_i \tilde b_{i - 1} - \tilde d_{i - 1} a_i.\,</math>
+
+To further hasten the solution process, <math>\tilde b_i</math> may be divided out (if there's no division by zero risk), the newer modified coefficients, each notated with a prime, will be:
+
+:<math>a'_i = 0\,</math>
+
+:<math>b'_i = 1\,</math>
+
+:<math>c'_1 = \frac{c_1}{b_1}\,</math>
+:<math>c'_i = \frac{c_i}{b_i - c'_{i - 1} a_i}\,</math>
+
+:<math>d'_1 = \frac{d_1}{b_1}\,</math>
+:<math>d'_i = \frac{d_i - d'_{i - 1} a_i}{b_i - c'_{i - 1} a_i}.\,</math>
+
+This gives the following system with the same unknowns and coefficients defined in terms of the original ones above:
+
+:<math>\begin{array}{lcl}
+x_i + c'_i x_{i + 1} = d'_i \qquad &;& \ i = 1, \ldots, n - 1 \\
+x_n = d'_n \qquad &;& \ i = n. \\
+\end{array}
+\,</math>
+
+The last equation involves only one unknown. Solving it in turn reduces the next last equation to one unknown, so that this backward substitution can be used to find all of the unknowns:
+
+:<math>x_n = d'_n\,</math>
+
+:<math>x_i = d'_i - c'_i x_{i + 1} \qquad ; \ i = n - 1, n - 2, \ldots, 1.</math>
+
+==Variants==
+In some situations, particularly those involving [[periodic boundary conditions]], a slightly perturbed form of the tridiagonal system may need to be solved:
+
+:<math>
+\begin{align}
+a_1 x_{n}  + b_1 x_1  + c_1 x_2  & = d_1, \\
+a_i x_{i - 1}  + b_i x_i  + c_i x_{i + 1}  & = d_i,\quad\quad i = 2,\ldots,n-1 \\
+a_n x_{n-1}  + b_n x_n  + c_n x_1  & = d_n.
+\end{align}
+</math>
+
+In this case, we can make use of the [[Sherman-Morrison formula]] to avoid the additional operations of Gaussian elimination and still use the Thomas algorithm. The method requires solving a modified non-cyclic version of the system for both the input and a sparse corrective vector, and then combining the solutions. This can be done efficiently if both solutions are computed at once, as the forward portion of the pure tridiagonal matrix algorithm can be shared.
+
+In other situations, the system of equations may be '''block tridiagonal''' (see [[block matrix]]), with smaller submatrices arranged as the individual elements in the above matrix system(e.g., the 2D [[Poisson equation discretized into block tridiagonal|Poisson problem]]). Simplified forms of Gaussian elimination have been developed for these situations.<ref name="Quarteroni2007">{{cite  book|last1=Quarteroni|first1=Alfio|last2=Sacco|first2=Riccardo|last3=Saleri|first3=Fausto | year=2007|title=Numerical Mathematics|publisher= Springer, New York|isbn= 978-3-540-34658-6|chapter=Section 3.8}}</ref>
+
+The textbook ''Numerical Mathematics'' by Quarteroni, Sacco and Saleri, lists a modified version of the algorithm which avoids some of the divisions (using instead multiplications), which is beneficial on some computer architectures.
+
+==References==
+{{Wikibooks|Algorithm Implementation|Linear Algebra/Tridiagonal matrix algorithm|Tridiagonal matrix algorithm}}
+{{reflist}}
+
+*{{cite book|author1=Conte, S.D. |author2=deBoor, C. |lastauthoramp=yes |year=1972|title=Elementary Numerical Analysis|publisher= McGraw-Hill, New York|isbn= 0070124469}}
+*{{CFDWiki|name=Tridiagonal_matrix_algorithm_-_TDMA_(Thomas_algorithm)}}
+*{{Cite book|last1=Press|first1=WH|last2=Teukolsky|first2=SA|last3=Vetterling|first3=WT|last4=Flannery|first4=BP|year=2007|title=Numerical Recipes: The Art of Scientific Computing|edition=3rd|publisher=Cambridge University Press| publication-place=New York|isbn=978-0-521-88068-8|chapter=Section 2.4|chapter-url=http://apps.nrbook.com/empanel/index.html?pg=56|postscript=<!-- Bot inserted parameter. Either remove it; or change its value to "." for the cite to end in a ".", as necessary. -->{{inconsistent citations}}}}
+
+{{Numerical linear algebra}}
+
+{{DEFAULTSORT:Tridiagonal Matrix Algorithm}}
+[[Category:Numerical linear algebra]]
+

@@ -2,7 +2,7 @@ module input_parameters
 	implicit none
 	integer,parameter :: n=4 
   
-	! d is the right hand side of the equations of the tridiagonal matrix
+	! d is the right hand side of the equations
   !for theproblem mentioned in exercise
   real(8), parameter :: d(1:n)=(/2.0,4.0,6.0,13.0/) 
   

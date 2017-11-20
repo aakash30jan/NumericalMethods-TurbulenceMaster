@@ -14,7 +14,7 @@ program tridiagonal_matrix
 	!d(1)=2.0d0 
 	!d(2)=4.0d0 
 	!d(3)=6.0d0 
-	d(n)=13.0d0	 
+	!d(n)=13.0d0	 
 
 	A_Main=0.0d0
 	do i=1,n

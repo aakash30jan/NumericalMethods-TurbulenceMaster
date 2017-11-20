@@ -3,26 +3,15 @@ program tridiagonal_matrix
 	integer :: i,j,k
 	integer,parameter ::n=90
 	real(8) ::a(n),b(n),c(n),d(n),x(n),xexact(n),error,A_Main(n,n),x_ran(n)
-	! a is the lower diagonal of the tridiagonal matrix
-	! b is the main diagonal of the tridiagonal matrix
-	! c is the uppar diagonal of the tridiagonal matrix
-	! d is the right hand side of the equations of the tridiagonal matrix
-  !x is the numerical value calculated from the thomas algorithm.
 	
 	a=-1.0d0
-	a(1)=0.0d0	!first element of the a shold be zero
-	b=4.0d0			! all elements of b are identical
+	a(1)=0.0d0	
+	b=4.0d0			
 	c=-1.0d0
-	c(n)=0.0d0	!last element of c must be zero
+	c(n)=0.0d0	
   
-  !from the class example
-  !d=(/3.0d0,4.0d0,6.0d0,13.0d0/)
-	!d(1)=2.0d0 
-	!d(2)=4.0d0 
-	!d(3)=6.0d0 
-	!d(n)=13.0d0
-
-	call random_number(x_ran) !calling random variables in to array x_ran
+  
+	call random_number(x_ran) 
 	!print*,x_ran
 	A_Main=0.0d0
 	!do i=1,n
@@ -38,27 +27,17 @@ program tridiagonal_matrix
 	End do 
 
 
-	d=matmul(A_main,x_ran)	!Ax=b=d......Matrix multiplication of Matrix A with random x
-	xexact(1)=1.0d0  ! xexact is the exact value of x for the class exercise
-	xexact(2)=2.0d0
-	xexact(3)=3.0d0	
-	xexact(n)=4.0d0	
+	d=matmul(A_main,x_ran)	
+	
 	call  triSolve(a,b,c,d,x,xexact,n) 
 	error=0.0d0
 	do i=1,n
-		error=error+dabs(x(i)-x_ran(i)) !error between the random x and the x calculated through Thomas Algorithm
+		error=error+dabs(x(i)-x_ran(i)) 
 	end do
 	print*,"Error=", error
-	!print*,x
-  !open(unit=25,file="xRan_xNum.dat")
-	!do i=1,n
-	!	write(25,*) x_ran(i),x(i)
-	!end do 
-	!close(25)
-
+	
 contains
-  !subroutine to caluculate the x values from AX=d system
-  !to compute the new coeficients b,d, and numerical value of x
+  !
 	subroutine triSolve(a,b,c,d,x,xexact,n) 
 		implicit none
 		integer::i
@@ -70,7 +49,7 @@ contains
 		end do
 			x(n)=d(n)/b(n)
 		do i=n-1,1,-1
-			x(i)=(d(i)-(c(i)*x(i+1)))/b(i) !Numerical values calculated using thomas algoritham
+			x(i)=(d(i)-(c(i)*x(i+1)))/b(i) 
 		end do
 	end subroutine triSolve
 	
