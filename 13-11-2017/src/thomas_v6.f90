@@ -24,6 +24,7 @@ use module_triSolve
   do p=1,size(m)
   n=m(p)
   allocate (a(n),b(n),c(n),d(n),x(n),aBig(n,n),xRand(n))
+
 	a=-1.0d0
 	a(1)=0.0d0	
 	b=2.0d0			
