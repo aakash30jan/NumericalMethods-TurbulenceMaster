@@ -1,7 +1,7 @@
-module module_triSolve
+module modtrisolve
 implicit none
 contains
-	subroutine triSolve(a,b,c,d,x,n) 
+	subroutine trisolve(a,b,c,d,x,n) 
 		implicit none
 		integer::i
 		integer,intent(IN) ::n
@@ -19,6 +19,11 @@ contains
 	!b=2.0d0			
 	!c=-1.0d0
 	!c(n)=0.0d0
+	
+	!or
+	!a=1.0d0
+        !b=-2.0d0			
+        !c=1.0d0
 		
 		do i=2,n
 			b(i)=b(i)-((a(i)/b(i-1))*c(i-1))
@@ -28,6 +33,6 @@ contains
 		do i=n-1,1,-1
 			x(i)=(d(i)-(c(i)*x(i+1)))/b(i) 
 		end do
-	end subroutine triSolve
+	end subroutine trisolve
 
-end module module_triSolve
+end module modtrisolve
