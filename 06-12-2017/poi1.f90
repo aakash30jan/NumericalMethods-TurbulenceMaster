@@ -1,4 +1,5 @@
 !for drichilet boundary conditions only
+!with 2nd order central finite difference scheme
 !compile with
 !gfortran modtrisolve.o poi1.f90 -o poi1.exe -fcheck=all
 program poisson
@@ -43,7 +44,7 @@ bsolve=h*h*bsolve
 
 ! a is the lower diagonal of the tridiagonal matrix
 ! b is the main diagonal of the tridiagonal matrix
-! c is the uppar diagonal of the tridiagonal matrix
+! c is the upper diagonal of the tridiagonal matrix
 a=1.0d0
 b=-2.0d0			
 c=1.0d0

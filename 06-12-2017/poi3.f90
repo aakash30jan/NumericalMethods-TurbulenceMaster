@@ -1,12 +1,12 @@
 !for mixed boundary conditions 
-!with 2nd order central finite difference scheme
+!with 1st order non-central finite difference scheme
 !compile with
-!gfortran modtrisolve.o poi2.f90 -o poi2.exe -fcheck=all
+!gfortran modtrisolve.o poi3.f90 -o poi3.exe -fcheck=all
 program poisson
 use modtrisolve
 
 implicit none
-integer, parameter :: n=1000
+integer, parameter :: n=5
 real(8) :: x(n),y(n),bsolve(n),ysolve(n),a(n),b(n),c(n), yexact(n), error(n)!,asolve(n,n) print asolve if needed
 real(8) :: h,lb,ub,lbc,ubc
 integer :: i
@@ -36,7 +36,7 @@ end do
 y=-1.0d0*x
 !print *, y
 
-bsolve(1)=(y(1)/2.0d0)+(lbc/h) !artistically brewed 
+bsolve(1)=lbc/h !simply brewed 
 do i=2,n-1
   bsolve(i)=y(i+1)
 end do
@@ -49,9 +49,9 @@ bsolve=h*h*bsolve
 ! a is the lower diagonal of the tridiagonal matrix
 ! b is the main diagonal of the tridiagonal matrix
 ! c is the upper diagonal of the tridiagonal matrix
-a=-1.0d0
-b=2.0d0	
-b(1)=1.0d0		
+a=0.0d0
+b=1.0d0	
+b(1)=0.0d0		
 c=-1.0d0
 !print*, a,b,c
 
@@ -60,10 +60,10 @@ call trisolve(a,b,c,bsolve,ysolve,n)
 
 ysolve=-1.0d0*ysolve !my solve is returning negative values of the actual numerical value 
 !I have figured out the problem which is in my reverse way of dealing with the range of x
-!print *, ysolve
+print *, ysolve
 
-yexact=((-x**3.0d0)/6.0d0)+(x/2.0d0)
-!print *, yexact
+yexact=((-x**2.0d0)/2.0d0)+(1.0d0/2.0d0)
+print *, yexact
 error=yexact-ysolve
 error=abs(sum(error)/size(error))
 !print *, error
