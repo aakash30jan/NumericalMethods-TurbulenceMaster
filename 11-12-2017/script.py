@@ -32,12 +32,23 @@ from scipy.fftpack import fft
 tdata=np.arange(0,time.size,1)
 ut=fft(jetHW)
 uts=np.fft.fftshift(ut)
-utl=np.log(uts)
+#utl=np.log(uts)
 k1=2.00*(mt.pi)/tdata.size
 k2=np.arange(-(tdata.size)/2,(tdata.size)/2,1)
 k=k1*k2
 #knew=np.arange(-200,200,1)
 #pl.plot(k,utl)
-pl.plot(k[(k.size/2):(k.size-1)],utl[(utl.size/2):(utl.size-1)])
+#pl.plot(k[(k.size/2):(k.size-1)],utl[(utl.size/2):(utl.size-1)])
+#pl.show()
+#pl.plot(np.log(k),utl) #plots, but with warnings
+
+pl.loglog(k[(k.size/2):(k.size-1)],uts[(uts.size/2):(uts.size-1)])
+#pl.plot(np.log(k),np.log(uts)) # #plot looks good, but with warnings
+pl.loglog(k,uts,'r-')
+pl.show()
+
+
+uts_mag=np.sqrt(np.square(np.real(uts))+np.square(np.imag(uts)))
+pl.loglog(k,uts,'g-')
 pl.show()
 
