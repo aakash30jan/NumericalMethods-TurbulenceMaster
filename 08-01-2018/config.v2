@@ -1,0 +1,48 @@
+#config v2
+echo "Mesh Generation Framework"
+echo "Checking for dependencies"
+#check dependencies
+        #gfortran #hdf5lib1.8 
+echo "Installing dependencies"
+#install dependencies
+ 
+
+#build
+echo "Building from source" 
+rm -r ./bin
+mkdir bin 
+cd ./src
+
+#cleaning
+echo "Checking and removing previous buid(s), if any"
+find . -type f -name '*.o' -delete
+find . -type f -name '*.mod' -delete
+find . -type f -name '*.exe' -delete
+
+echo "Building . . . . "
+mkdir temp
+find . -type f -name 'module_*.f90' -exec cp -r -t ./temp/ {} +
+cd temp 
+#compile priority modules
+gfortran -c module_precision.f90
+
+#compile all other modules
+gfortran -c module_*.f90
+cp ../MeshGeneration_Framework.f90 MeshGeneration_Framework.f90
+gfortran *.o MeshGeneration_Framework.f90 -o MeshGeneration_Framework.f90
+cp MeshGeneration_Framework.f90 ../../bin/MeshGeneration_Framework.f90
+
+#goto src
+cd ..
+rm -r temp
+#goto / of project
+cd ..
+
+echo "Build complete successfully"
+
+#automatic test ----IF Possible
+#echo "Performing tests(s)"
+#cd ./bin
+#./MeshGeneration_Framework.f90 testParam
+#echo "Test was successfull !"
+
