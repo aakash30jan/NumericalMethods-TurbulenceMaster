@@ -14,7 +14,7 @@ mkdir bin
 cd ./src
 
 #cleaning
-echo "Checking and removing previous buid(s), if any"
+echo "Checking and removing previous build(s), if any"
 find . -type f -name '*.o' -delete
 find . -type f -name '*.mod' -delete
 find . -type f -name '*.exe' -delete
@@ -25,9 +25,13 @@ find . -type f -name 'module_*.f90' -exec cp -r -t ./temp/ {} +
 cd temp 
 #compile priority modules
 gfortran -c module_precision.f90
+#HDF5 module
 
 #compile all other modules
-gfortran -c module_*.f90
+gfortran -c module_*.f90 
+gfortran -c module_*.f90 
+
+#Compile main program
 cp ../MeshGeneration_Framework.f90 MeshGeneration_Framework.f90
 gfortran *.o MeshGeneration_Framework.f90 -o MeshGeneration_Framework.f90
 cp MeshGeneration_Framework.f90 ../../bin/MeshGeneration_Framework.f90
