@@ -13,6 +13,7 @@ module module_gaussSiedelRelaxed
 		u_new=0.0d0	
 		w=4.0d0-((cos(pi/(n-1))+cos(pi/(n-1)))**2)
 		w=4.0d0/(2.0d0+sqrt(w))
+		!
 		print*,"W value=",w
 		call random_number(u)	
 		do i=1,n

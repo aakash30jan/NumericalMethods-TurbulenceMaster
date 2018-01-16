@@ -1,7 +1,0 @@
-     n		Itr_jacobi		 Itr_Gauss		Itr_Gauss_with Relaxation
-     8	   		374	   			183		  	     	 46
-    16	  	   1462	   		    704   			     89
-    32	  	   5890	  		   2669  			    177
-    64	 	  23352	 		  10105  				353
-   128 	 	  90003   		  38118   				702
-   

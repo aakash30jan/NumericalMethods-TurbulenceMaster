@@ -3,7 +3,7 @@ program poisson_2D
 	use module_gaussSiedel
 	use module_jacobi
 	implicit none
-	integer,parameter :: n=129 !h=1/(n-1) (simply do 2^3 +1, 2^4 +1,..., 2^7 +1)
+	integer,parameter :: n=9 !h=1/(n-1) (simply do 2^3 +1, 2^4 +1,..., 2^7 +1)
 	real(8),parameter ::pi=4.0d0*datan(1.0d0)
 	integer :: i,j,k,k_j,k_gs,k_gsr
 	real(8) :: u(n,n),x(n,n),y(n,n),h,u_new(n,n),f(n,n),u_exact(n,n)
